@@ -2,18 +2,16 @@
 
 A Python library for model integrity and trust in NANDA-compatible agent registries.
 
-[Project NANDA](https://projectnanda.org) is the protocol for federated AI agent discovery and communication. This library provides the model integrity layer — provenance tracking, weight hashing, signed attestations, lineage chains, and governance policy enforcement — for agents participating in NANDA registries.
+**NANDA** (Networked AI Agents in Decentralized Architecture) is [MIT Media Lab's](https://www.media.mit.edu/projects/mit-nanda/overview/) protocol for federated AI agent discovery and communication. This library provides the model integrity primitives — provenance tracking, weight hashing, signed attestations, lineage chains, and governance policy enforcement — for agents participating in the NANDA ecosystem.
 
 ## Features
 
-- **Model Provenance** — Structured metadata for AI models (identity, versioning, provider, governance tier)
-- **Integrity Hashing** — Cryptographic verification of model weights (SHA-256, SHA-384, SHA-512, BLAKE2b)
-- **Signed Attestations** — HMAC-SHA256 signing and verification of provenance data
-- **Lineage Tracking** — Derivation chains from base model to fine-tuned/quantized variants
-- **Governance Policies** — Configurable policy engine with 6 built-in checks and preset rule sets
-- **NANDA Integration** — First-class support for AgentFacts and AgentCard metadata extensions
-
-Zero runtime dependencies. Python 3.10+.
+- **Model Provenance** - Structured metadata for AI models (identity, versioning, provider, governance tier)
+- **Integrity Hashing** - Cryptographic verification of model weights (SHA-256, SHA-384, SHA-512, BLAKE2b)
+- **Signed Attestations** - HMAC-SHA256 signing and verification of provenance data
+- **Lineage Tracking** - Derivation chains from base model to fine-tuned/quantized variants
+- **Governance Policies** - Configurable policy engine with 6 built-in checks and preset rule sets
+- **NANDA Integration** - First-class support for AgentFacts and AgentCard metadata extensions
 
 ## Installation
 
@@ -21,19 +19,12 @@ Zero runtime dependencies. Python 3.10+.
 pip install nanda-model-integrity-layer
 ```
 
-From source:
+Or install from source:
 
 ```bash
-git clone https://github.com/Sharathvc23/nanda-model-integrity-layer.git
+git clone https://github.com/Sharathvc23/nanda-model-integrity-layer
 cd nanda-model-integrity-layer
-pip install -e ".[dev]"
-```
-
-Optional extras:
-
-```bash
-pip install "nanda-model-integrity-layer[crypto]"   # Ed25519 + ECDSA support
-pip install "nanda-model-integrity-layer[bridge]"    # nanda_bridge integration
+pip install -e .
 ```
 
 ## Quick Start
@@ -249,14 +240,20 @@ agent_metadata = attach_to_agent_facts(
 
 ## Related Projects
 
-- [Project NANDA](https://projectnanda.org) — Protocol for federated AI agent discovery
-- [nanda_bridge](https://github.com/Sharathvc23/nanda-bridge) — NANDA protocol bridge for Python agents
-- [NANDA Quilt](https://github.com/Sharathvc23/nanda-quilt) — NANDA agent registry
+- [Project NANDA](https://github.com/projnanda) - ProjectNANDA.org
+- [NANDA Adapter](https://github.com/projnanda/adapter) - Official NANDA SDK
+- [NANDA Quilt](https://github.com/aidecentralized/NANDA-Quilt-of-Registries-and-Verified-AgentFacts) - Federated registry specification
 
 ## License
 
-Apache 2.0 — see [LICENSE](LICENSE) for details.
+MIT License - see [LICENSE](LICENSE)
+
+## Contributing
+
+Contributions welcome! Please read our contributing guidelines and submit pull requests.
 
 ## Credits
 
-Developed by [stellarminds.ai](https://stellarminds.ai) and open-sourced for [projectnanda.org](https://projectnanda.org).
+Developed by [stellarminds.ai](https://stellarminds.ai) and open-sourced for https://projectnanda.org
+
+NANDA is a project of the [MIT Media Lab](https://www.media.mit.edu/projects/mit-nanda/overview/).
