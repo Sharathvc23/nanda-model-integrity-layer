@@ -450,6 +450,6 @@ Several extensions are under consideration:
 
 5. Mitchell, M., Wu, S., Zaldivar, A., Barnes, P., Vasserman, L., Hutchinson, B., Spitzer, E., Raji, I.D., and Gebru, T. (2019). "Model Cards for Model Reporting." *Proceedings of the Conference on Fairness, Accountability, and Transparency (FAT\*)*, pp. 220–229.
 
-6. NANDA Protocol. "Network for Agent Discovery and Attestation." https://projectnanda.org
+6. NANDA Protocol. "Network of AI Agents in Decentralized Architecture." https://projectnanda.org
 
 7. Krawczyk, H., Bellare, M., and Canetti, R. (1997). "HMAC: Keyed-Hashing for Message Authentication." RFC 2104. Internet Engineering Task Force.
