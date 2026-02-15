@@ -2,7 +2,7 @@
 
 A Python library for model integrity and trust in NANDA-compatible agent registries.
 
-**NANDA** (Networked AI Agents in Decentralized Architecture) is [MIT Media Lab's](https://www.media.mit.edu/projects/mit-nanda/overview/) protocol for federated AI agent discovery and communication. This library provides the model integrity primitives — provenance tracking, weight hashing, signed attestations, lineage chains, and governance policy enforcement — for agents participating in the NANDA ecosystem.
+**[NANDA](https://projectnanda.org)** (Networked AI Agents in Decentralized Architecture) is the protocol for federated AI agent discovery and communication. This library provides the model integrity primitives — provenance tracking, weight hashing, signed attestations, lineage chains, and governance policy enforcement — for agents participating in the NANDA ecosystem.
 
 ## Features
 
@@ -254,6 +254,4 @@ Contributions welcome! Please read our contributing guidelines and submit pull r
 
 ## Credits
 
-Developed by [stellarminds.ai](https://stellarminds.ai) and open-sourced for https://projectnanda.org
-
-NANDA is a project of the [MIT Media Lab](https://www.media.mit.edu/projects/mit-nanda/overview/).
+Developed by [stellarminds.ai](https://stellarminds.ai) and open-sourced for [projectnanda.org](https://projectnanda.org).
