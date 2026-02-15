@@ -242,7 +242,8 @@ agent_metadata = attach_to_agent_facts(
 
 | Package | Question it answers |
 |---------|-------------------|
-| [`model-card`](https://github.com/Sharathvc23/model-card) | "What is this model?" (unified metadata schema — type, status, risk level, metrics, weights hash) |
+| [`nanda-model-provenance`](https://github.com/Sharathvc23/nanda-model-provenance) | "Where did this model come from?" (identity, versioning, provider, NANDA serialization) |
+| [`nanda-model-card`](https://github.com/Sharathvc23/model-card) | "What is this model?" (unified metadata schema — type, status, risk level, metrics, weights hash) |
 | `nanda-model-integrity-layer` (this package) | "Does this model's metadata meet policy?" (rule-based checks) |
 | [`nanda-model-governance`](https://github.com/Sharathvc23/nanda-governance) | "Has this model been cryptographically approved for deployment?" (approval flow with signatures, quorum, scoping, revocation) |
 
