@@ -264,4 +264,4 @@ Contributions welcome! Please read our contributing guidelines and submit pull r
 
 ## Credits
 
-Developed by [stellarminds.ai](https://stellarminds.ai) and open-sourced for [projectnanda.org](https://projectnanda.org).
+Developed by [stellarminds.ai](https://stellarminds.ai) 
