@@ -256,12 +256,8 @@ agent_metadata = attach_to_agent_facts(
 
 ## License
 
-MIT License - see [LICENSE](LICENSE)
+MIT
 
-## Contributing
+---
 
-Contributions welcome! Please read our contributing guidelines and submit pull requests.
-
-## Credits
-
-Developed by [stellarminds.ai](https://stellarminds.ai) 
+*Developed by [stellarminds.ai](https://stellarminds.ai) — Research Contribution to [Project NANDA](https://projectnanda.org)*
