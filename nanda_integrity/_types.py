@@ -44,6 +44,11 @@ class HashAlgorithm(str, Enum):
     BLAKE2B = "blake2b"
 
 
+# Note: ED25519 and ECDSA_P256 are defined for forward-compatibility.
+# Currently only HMAC_SHA256 has a built-in signer/verifier implementation.
+# Custom implementations can be provided via the Signer/Verifier protocols.
+
+
 class AttestationMethod(str, Enum):
     """Supported attestation methods."""
 

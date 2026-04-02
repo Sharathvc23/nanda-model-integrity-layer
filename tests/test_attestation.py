@@ -19,7 +19,6 @@ from nanda_integrity.attestation import (
     verify_attestation,
 )
 
-
 # -- Protocols --------------------------------------------------------
 
 
@@ -169,9 +168,7 @@ class TestCreateVerifyAttestation:
             governance_tier="standard",
         )
 
-        attestation = create_attestation(
-            prov, signer, timestamp="2026-01-15T10:00:00Z"
-        )
+        attestation = create_attestation(prov, signer, timestamp="2026-01-15T10:00:00Z")
         assert attestation.method == "hmac-sha256"
         assert attestation.signer_id == "test-org"
         assert attestation.timestamp == "2026-01-15T10:00:00Z"

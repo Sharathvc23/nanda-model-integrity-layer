@@ -5,7 +5,6 @@ from __future__ import annotations
 from nanda_integrity import ModelProvenance
 from nanda_integrity.lineage import LineageNode, ModelLineage
 
-
 # -- LineageNode ------------------------------------------------------
 
 

@@ -6,7 +6,6 @@ import pytest
 
 from nanda_integrity import ModelProvenance
 
-
 # -- to_dict() --------------------------------------------------------
 
 

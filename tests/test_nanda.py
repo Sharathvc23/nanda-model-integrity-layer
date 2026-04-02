@@ -4,19 +4,15 @@ from __future__ import annotations
 
 from nanda_integrity import (
     Attestation,
-    GovernanceReport,
     ModelLineage,
     ModelProvenance,
-    PolicyResult,
     check_governance,
 )
-from nanda_integrity.lineage import LineageNode
 from nanda_integrity.nanda import (
     IntegrityExtension,
     attach_to_agent_facts,
     extract_from_agent_facts,
 )
-
 
 # -- IntegrityExtension -----------------------------------------------
 
@@ -97,45 +93,35 @@ class TestAttachToAgentFacts:
 
     def test_adds_extension(self):
         metadata: dict = {"name": "test-agent"}
-        ext = IntegrityExtension(
-            provenance=ModelProvenance(model_id="test")
-        )
+        ext = IntegrityExtension(provenance=ModelProvenance(model_id="test"))
         result = attach_to_agent_facts(metadata, ext)
         assert "name" in result
         assert "x_model_integrity" in result
 
     def test_preserves_existing(self):
         metadata: dict = {"existing": "value", "x_other": {"data": True}}
-        ext = IntegrityExtension(
-            provenance=ModelProvenance(model_id="test")
-        )
+        ext = IntegrityExtension(provenance=ModelProvenance(model_id="test"))
         result = attach_to_agent_facts(metadata, ext)
         assert result["existing"] == "value"
         assert result["x_other"] == {"data": True}
 
     def test_does_not_mutate_original(self):
         metadata: dict = {"name": "agent"}
-        ext = IntegrityExtension(
-            provenance=ModelProvenance(model_id="test")
-        )
+        ext = IntegrityExtension(provenance=ModelProvenance(model_id="test"))
         result = attach_to_agent_facts(metadata, ext)
         assert "x_model_integrity" not in metadata
         assert "x_model_integrity" in result
 
     def test_include_legacy(self):
         metadata: dict = {}
-        ext = IntegrityExtension(
-            provenance=ModelProvenance(model_id="test")
-        )
+        ext = IntegrityExtension(provenance=ModelProvenance(model_id="test"))
         result = attach_to_agent_facts(metadata, ext, include_legacy=True)
         assert "x_model_integrity" in result
         assert "x_model_provenance" in result
 
     def test_custom_key(self):
         metadata: dict = {}
-        ext = IntegrityExtension(
-            provenance=ModelProvenance(model_id="test")
-        )
+        ext = IntegrityExtension(provenance=ModelProvenance(model_id="test"))
         result = attach_to_agent_facts(metadata, ext, key="x_vendor")
         assert "x_vendor" in result
         assert "x_model_integrity" not in result

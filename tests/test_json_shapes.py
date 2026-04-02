@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from nanda_integrity import ModelProvenance
 
-
 # -- AgentFacts extension shape ---------------------------------------
 
 

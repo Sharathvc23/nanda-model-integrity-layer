@@ -58,9 +58,7 @@ agent_metadata = {
     "name": "Legal Advisor Agent",
     "version": "2.1.0",
 }
-enriched = attach_to_agent_facts(
-    agent_metadata, extension, include_legacy=True
-)
+enriched = attach_to_agent_facts(agent_metadata, extension, include_legacy=True)
 
 print("\nEnriched metadata keys:", list(enriched.keys()))
 print("Has x_model_integrity:", "x_model_integrity" in enriched)

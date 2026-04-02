@@ -20,7 +20,6 @@ from nanda_integrity.governance import (
     check_governance,
 )
 
-
 # -- PolicyResult -----------------------------------------------------
 
 

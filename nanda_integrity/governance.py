@@ -133,7 +133,10 @@ class MaxRiskLevel:
     """
 
     _RISK_ORDER: ClassVar[dict[str, int]] = {
-        "low": 0, "medium": 1, "high": 2, "critical": 3,
+        "low": 0,
+        "medium": 1,
+        "high": 2,
+        "critical": 3,
     }
 
     def __init__(self, max_level: str = "medium") -> None:

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import hashlib
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -17,7 +16,6 @@ from nanda_integrity import (
     verify_provenance_integrity,
 )
 from nanda_integrity.hashing import HashProvider
-
 
 # -- StdlibHashProvider -----------------------------------------------
 
