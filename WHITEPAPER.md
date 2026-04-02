@@ -109,6 +109,5 @@ The `ModelProvenance` dataclass in the integrity layer extends the identity-laye
 
 ## References
 
-1. SLSA. "Supply-chain Levels for Software Artifacts." https://slsa.dev
-2. Krawczyk, H., Bellare, M., and Canetti, R. (1997). "HMAC: Keyed-Hashing for Message Authentication." RFC 2104.
-3. NANDA Protocol. "Network of AI Agents in Decentralized Architecture." https://projectnanda.org
+1. NANDA Protocol. "Network of AI Agents in Decentralized Architecture." https://projectnanda.org
+2. SLSA. "Supply-chain Levels for Software Artifacts." https://slsa.dev
