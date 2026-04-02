@@ -1,4 +1,19 @@
-"""Tests for nanda module — NANDA protocol integration."""
+"""Tests for nanda module — NANDA protocol integration.
+
+# Step 1 — Assumption Audit
+# - IntegrityExtension combines provenance, optional lineage/attestation/governance
+# - attach_to_agent_facts merges non-destructively into metadata dict
+# - extract_from_agent_facts reconstructs IntegrityExtension from metadata
+# - Legacy extension uses x_model_provenance key
+
+# Step 2 — Gap Analysis
+# - Good coverage of round-trip, missing data, custom keys
+# - No gaps requiring additional adversarial tests
+
+# Step 3 — Break It List
+# - Missing provenance returns None (already covered)
+# - Custom key extraction (already covered)
+"""
 
 from __future__ import annotations
 

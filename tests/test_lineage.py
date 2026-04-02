@@ -1,4 +1,20 @@
-"""Tests for lineage module — model derivation tracking."""
+"""Tests for lineage module — model derivation tracking.
+
+# Step 1 — Assumption Audit
+# - LineageNode has model_id, optional relation/parent_id/metadata
+# - ModelLineage supports add(), depth, root, leaf, ancestors(), to_dict()
+# - Empty lineage has depth=0, root=None, leaf=None
+# - from_provenance() builds lineage from ModelProvenance (1 or 2 nodes)
+# - ancestors() returns empty list for root or unknown nodes
+
+# Step 2 — Gap Analysis
+# - Empty lineage test exists but no test for to_dict() on empty lineage
+# - No circular lineage detection test (ancestors with circular parent_id)
+
+# Step 3 — Break It List
+# - Empty lineage to_dict should return []
+# - Circular parent_id chain could infinite loop in ancestors()
+"""
 
 from __future__ import annotations
 
@@ -182,3 +198,28 @@ class TestFromProvenance:
         lineage = ModelLineage.from_provenance(prov)
         assert lineage.leaf is not None
         assert lineage.leaf.relation == "fine_tuned"
+
+
+# -- Adversarial lineage tests ----------------------------------------
+
+
+class TestLineageAdversarial:
+    """R2: adversarial edge cases for lineage."""
+
+    def test_lineage_with_no_nodes_to_dict(self):
+        """Empty lineage to_dict returns empty list."""
+        lineage = ModelLineage()
+        assert lineage.to_dict() == []
+        assert lineage.depth == 0
+        assert lineage.root is None
+        assert lineage.leaf is None
+
+    def test_circular_lineage_ancestors_terminates(self):
+        """If parent_id creates a cycle, ancestors() must not infinite loop."""
+        lineage = ModelLineage()
+        lineage.add(LineageNode(model_id="A", parent_id="B"))
+        lineage.add(LineageNode(model_id="B", parent_id="A"))
+        # ancestors() may return partial results but must terminate
+        ancestors = lineage.ancestors("A")
+        # Should not hang; length is bounded by number of nodes
+        assert len(ancestors) <= 2

@@ -1,4 +1,23 @@
-"""Tests for hashing module — integrity verification."""
+"""Tests for hashing module — integrity verification.
+
+# Step 1 — Assumption Audit
+# - StdlibHashProvider supports sha256/sha384/sha512/blake2b only
+# - md5 is explicitly unsupported and raises ValueError
+# - hash_file streams via 64 KiB chunks; empty files should still return valid hash
+# - compute_weights_hash accepts str or Path
+# - verify_integrity returns frozen IntegrityResult
+# - verify_provenance_integrity reads hash info from ModelProvenance
+
+# Step 2 — Gap Analysis
+# - No test for hashing an empty file (0 bytes)
+# - No test for hash_file on a nonexistent path
+# - Unsupported algorithm test only on hash_bytes, not hash_file
+
+# Step 3 — Break It List
+# - Empty file edge case
+# - Nonexistent file path should raise FileNotFoundError
+# - md5 (unsupported) via hash_file path
+"""
 
 from __future__ import annotations
 
@@ -54,6 +73,29 @@ class TestStdlibHashProvider:
         p = StdlibHashProvider()
         with pytest.raises(ValueError, match="Unsupported algorithm"):
             p.hash_bytes(b"data", "md5")
+
+    def test_hash_empty_file(self, tmp_path: Path):
+        """R5: empty file (0 bytes) returns a valid hash, not an error."""
+        p = StdlibHashProvider()
+        f = tmp_path / "empty.bin"
+        f.write_bytes(b"")
+        expected = hashlib.sha256(b"").hexdigest()
+        assert p.hash_file(f, "sha256") == expected
+
+    def test_hash_nonexistent_file_raises(self, tmp_path: Path):
+        """R2: hashing a path that does not exist must raise FileNotFoundError."""
+        p = StdlibHashProvider()
+        missing = tmp_path / "does_not_exist.bin"
+        with pytest.raises(FileNotFoundError):
+            p.hash_file(missing, "sha256")
+
+    def test_unsupported_algorithm_raises_hash_file(self, tmp_path: Path):
+        """R2: md5 via hash_file raises ValueError, same as hash_bytes."""
+        p = StdlibHashProvider()
+        f = tmp_path / "data.bin"
+        f.write_bytes(b"data")
+        with pytest.raises(ValueError, match="Unsupported algorithm"):
+            p.hash_file(f, "md5")
 
 
 # -- compute_weights_hash() ------------------------------------------

@@ -1,4 +1,17 @@
-"""Tests for _compat optional dependency detection."""
+"""Tests for _compat optional dependency detection.
+
+# Step 1 — Assumption Audit
+# - has_cryptography() returns bool based on importability of cryptography
+# - has_nanda_bridge() returns bool based on importability of nanda_bridge
+# - Both return False when import fails, True when available
+
+# Step 2 — Gap Analysis
+# - Coverage is complete for True/False cases with mocked imports
+# - No additional adversarial tests needed
+
+# Step 3 — Break It List
+# - Import failures properly caught (already covered)
+"""
 
 from __future__ import annotations
 

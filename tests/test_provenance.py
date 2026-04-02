@@ -1,4 +1,21 @@
-"""Unit tests for ModelProvenance dataclass and serialization methods."""
+"""Unit tests for ModelProvenance dataclass and serialization methods.
+
+# Step 1 — Assumption Audit
+# - ModelProvenance uses empty strings as defaults for optional fields
+# - to_dict() omits empty strings; from_dict() restores them
+# - to_agentfacts_extension() wraps under x_model_provenance by default
+# - to_agent_card_metadata() wraps under model_info
+# - to_decision_fields() emits only model_id/model_version/provider_id
+# - from_dict() raises TypeError if model_id is missing
+
+# Step 2 — Gap Analysis
+# - Good coverage of round-trips and omit-when-empty
+# - No adversarial tests needed beyond existing error-state coverage
+
+# Step 3 — Break It List
+# - from_dict with missing model_id already tested (raises TypeError)
+# - empty model_id behavior already tested
+"""
 
 from __future__ import annotations
 

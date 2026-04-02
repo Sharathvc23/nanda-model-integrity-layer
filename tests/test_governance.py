@@ -1,4 +1,22 @@
-"""Tests for governance module — policy engine and built-in policies."""
+"""Tests for governance module — policy engine and built-in policies.
+
+# Step 1 — Assumption Audit
+# - MaxRiskLevel uses ordered levels: low=0, medium=1, high=2, critical=3
+# - Threshold check is <= (inclusive): risk at max level passes
+# - STANDARD_POLICIES has 3 policies; REGULATED_POLICIES has 6
+# - check_governance defaults to STANDARD_POLICIES when none given
+# - Missing risk_level always fails MaxRiskLevel; unknown level also fails
+
+# Step 2 — Gap Analysis
+# - No explicit boundary test at exact threshold for MaxRiskLevel
+# - No test for fully populated provenance passing STANDARD policies
+# - No test for minimal provenance (only model_id) failing REGULATED
+
+# Step 3 — Break It List
+# - MaxRiskLevel boundary: risk exactly at max -> passes; one above -> fails
+# - Full provenance through STANDARD (should pass all 3)
+# - Minimal provenance through REGULATED (should fail most of 6)
+"""
 
 from __future__ import annotations
 
@@ -245,3 +263,53 @@ class TestPresets:
         )
         report = check_governance(prov, policies=list(REGULATED_POLICIES))
         assert report.passed is True
+
+
+# -- R5 Boundary & adversarial tests ---------------------------------
+
+
+class TestMaxRiskLevelBoundary:
+    """R5: boundary tests for MaxRiskLevel at/below/above threshold."""
+
+    def test_max_risk_level_boundary_at_exactly_threshold(self):
+        """Risk exactly at max_level passes (<=)."""
+        prov = ModelProvenance(model_id="test", risk_level="high")
+        assert MaxRiskLevel("high").check(prov).passed is True
+
+    def test_max_risk_level_boundary_above_threshold(self):
+        """Risk one level above max_level fails (>)."""
+        prov = ModelProvenance(model_id="test", risk_level="critical")
+        assert MaxRiskLevel("high").check(prov).passed is False
+
+    def test_max_risk_level_boundary_below_threshold(self):
+        """Risk one level below max_level passes."""
+        prov = ModelProvenance(model_id="test", risk_level="medium")
+        assert MaxRiskLevel("high").check(prov).passed is True
+
+
+class TestGovernanceAdversarial:
+    """Adversarial tests for governance check with preset policies."""
+
+    def test_all_standard_policies_pass_full_provenance(self):
+        """Fully populated provenance passes all STANDARD policies."""
+        prov = ModelProvenance(
+            model_id="llama-3.1-8b",
+            model_version="1.0.0",
+            provider_id="ollama",
+            model_type="base",
+            base_model="llama-3.1-8b",
+            governance_tier="standard",
+            weights_hash="abc123def456",
+            risk_level="low",
+        )
+        report = check_governance(prov, policies=list(STANDARD_POLICIES))
+        assert report.passed is True
+        assert len(report.failures) == 0
+
+    def test_regulated_policies_fail_minimal_provenance(self):
+        """Provenance with only model_id fails REGULATED policies."""
+        prov = ModelProvenance(model_id="bare-minimum")
+        report = check_governance(prov, policies=list(REGULATED_POLICIES))
+        assert report.passed is False
+        # At least weights_hash, tier, risk_level, attestation
+        assert len(report.failures) >= 3

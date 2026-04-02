@@ -2,6 +2,18 @@
 
 These tests encode the exact JSON structures expected by NANDA-compatible
 agent registries, ensuring the library stays aligned with the protocol.
+
+# Step 1 — Assumption Audit
+# - AgentFacts extension uses x_model_provenance key with non-empty fields
+# - AgentCard metadata uses model_info wrapper
+# - Decision fields are limited to model_id/model_version/provider_id
+# - to_dict() uses {if v} filter for clean serialization
+
+# Step 2 — Gap Analysis
+# - Golden-file shapes are comprehensive; no gaps
+
+# Step 3 — Break It List
+# - Shape assertions are strict by design; no adversarial tests needed
 """
 
 from __future__ import annotations

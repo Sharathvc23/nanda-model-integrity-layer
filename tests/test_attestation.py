@@ -1,4 +1,23 @@
-"""Tests for attestation module — signing and verification."""
+"""Tests for attestation module — signing and verification.
+
+# Step 1 — Assumption Audit
+# - HMACSigner/HMACVerifier use HMAC-SHA256
+# - canonicalize() produces sorted-key, no-whitespace JSON
+# - Attestation is frozen and round-trips via to_dict/from_dict
+# - create_attestation hashes the canonical provenance and signs it
+# - verify_attestation re-canonicalizes and verifies the signature
+# - Wrong key -> verification fails; tampered provenance -> verification fails
+
+# Step 2 — Gap Analysis
+# - No test for tampered single field after signing (not entire provenance swap)
+# - No test for empty/minimal provenance attestation
+# - Wrong key test exists at HMAC level but worth explicit attestation-level test
+
+# Step 3 — Break It List
+# - Change one field (e.g. provider_id) after signing, verify must fail
+# - Minimal provenance with only model_id should still sign/verify
+# - Sign with key A, verify with key B at full attestation workflow level
+"""
 
 from __future__ import annotations
 
@@ -206,3 +225,45 @@ class TestCreateVerifyAttestation:
         canonical = canonicalize(prov)
         expected_digest = hashlib.sha256(canonical).hexdigest()
         assert attestation.provenance_digest == expected_digest
+
+    def test_tampered_single_field_detected(self):
+        """R7: changing one field after signing must fail verification."""
+        secret = b"shared-secret"
+        signer = HMACSigner(secret, signer_id="org")
+        verifier = HMACVerifier(secret)
+
+        prov = ModelProvenance(
+            model_id="model-x",
+            provider_id="ollama",
+            governance_tier="standard",
+        )
+        attestation = create_attestation(prov, signer)
+        assert verify_attestation(prov, attestation, verifier) is True
+
+        # Tamper a single field
+        tampered = ModelProvenance(
+            model_id="model-x",
+            provider_id="ollama",
+            governance_tier="regulated",  # changed from "standard"
+        )
+        assert verify_attestation(tampered, attestation, verifier) is False
+
+    def test_empty_provenance_attestation(self):
+        """Minimal provenance (only model_id) can be signed and verified."""
+        secret = b"key"
+        signer = HMACSigner(secret)
+        verifier = HMACVerifier(secret)
+
+        prov = ModelProvenance(model_id="minimal-model")
+        attestation = create_attestation(prov, signer)
+        assert verify_attestation(prov, attestation, verifier) is True
+
+    def test_wrong_key_verification_fails(self):
+        """R7: sign with key A, verify with key B -> must fail."""
+        prov = ModelProvenance(
+            model_id="test",
+            provider_id="local",
+            risk_level="low",
+        )
+        attestation = create_attestation(prov, HMACSigner(b"key-A", signer_id="org-A"))
+        assert verify_attestation(prov, attestation, HMACVerifier(b"key-B")) is False
